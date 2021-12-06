@@ -14,11 +14,9 @@
    <tr>
     <td><%= book.title %></td>
     <td><%= book.body %></td>
-    <td>
-     <%= link_to "Show", book_path(book) %>
-     <%= link_to "Edit", edit_book_path(book) %>
-     <%= link_to "Destroy", book_path(book), method: :delete %>
-    </td>
+    <td><%= link_to "Show", book_path(book) %></td>
+    <td><%= link_to "Edit", edit_book_path(book) %></td>
+    <td><%= link_to "Destroy", book_path(book), method: :delete %></td>
    </tr>
     <% end %>
   </tbody>
@@ -28,25 +26,42 @@
 
 
 
-  <div class="error">
-    <% if @book.errors.any? %>
-     <span class="eroor-top"><%= @book.errors.count %>errors prohibited this book from being saved:</span>
-     <div class="error-message">
-       <% @book.errors.full_messages.each do |message| %>
-         <%= message %>
-       <% end %>
-     </div>
-    <% end %>
-  </div>
+  <% if @book.errors.any? %>
+   <div class="error">
+     <div class="error-top"><%= @book.errors.count %>errors prohibited this book from being saved:</div>
+     <ul class="error-message">
+           <% @book.errors.full_messages.each do |message| %>
+             <li><%= message %></li>
+           <% end %>
+     </ul>
+
+   </div>
+  <% end %>
 
   <div class="index-new">
    <h2>New book</h2>
    <div class="submit-box">
      <%= form_with model:@book, url:'/books', local:true do |f| %>
-       <h4>Title</h4>
-       <%= f.text_field :title %>
-       <h4>Body</h4>
-       <%= f.text_area :body %>
+       <div class="field">
+        <% if @book.errors.any? %>
+          <div class="field-error">Title</div>
+          <div class="field-error"><%= f.text_field :title %></div>
+        <% else %>
+          <div class="field-ok">Title</div>
+          <div class="field-ok"><%= f.text_field :title %></div>
+        <% end %>
+
+       </div>
+       <div class="field">
+        <% if @book.errors.any? %>
+          <div class="field-error">Body</div>
+          <div class="field-error"><%= f.text_area :body %></div>
+        <% else %>
+          <div class="field-ok">Body</div>
+          <div class="field-ok"><%= f.text_area :body %></div>
+        <%end %>
+
+       </div>
        <span class="submit-bottom"> <%= f.submit 'Create Book' %></span>
      <% end %>
    </div>
